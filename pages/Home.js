@@ -1,119 +1,241 @@
-import React, { useState } from 'react'; // Adicionado useState
+import React, { useState } from 'react';
 import { StyleSheet, ScrollView, View as BaseView } from 'react-native';
+
 import MyView from '../componentes/View';
 import MyText from '../componentes/Text';
 import MyTouchableOpacity from '../componentes/TouchableOpacity';
 import Container from '../componentes/Container';
 
-// Importando as outras telas diretamente
-import Login from './Login';
-import Cadastro from './Cadastro';
+export default function Home({ navigation }) {
 
-export default function Home() {
-  // Estado para controlar qual tela exibir
-  const [telaAtual, setTelaAtual] = useState('home');
-
-  // Lógica de troca de tela simples
-  // Dentro da função Home(), onde você faz as verificações de tela:
-
-if (telaAtual === 'login') {
-  return <Login onBack={() => setTelaAtual('home')} />;
-}
-
-if (telaAtual === 'cadastro') {
-  return <Cadastro onBack={() => setTelaAtual('home')} />;
-}
-
-  
+  const [menuAberto, setMenuAberto] = useState(false);
 
   return (
     <MyView style={styles.mainContainer}>
-      {/* Navbar */}
-      <MyView style={styles.navbar}>
-        <MyText style={styles.logoText}>SAMSUNG/STORE</MyText>
-        
-        <BaseView style={styles.navButtons}>
-          <MyTouchableOpacity 
-            style={styles.navIconBtn} 
-            onPress={() => setTelaAtual('login')} // Agora muda o estado
+
+      {/* NAVBAR */}
+      <BaseView style={styles.navbar}>
+        <MyTouchableOpacity onPress={() => setMenuAberto(!menuAberto)}>
+          <MyText style={styles.menuIcon}>☰</MyText>
+        </MyTouchableOpacity>
+
+        <MyText style={styles.navTitle}>SAMSUNG STORE</MyText>
+      </BaseView>
+
+      {/* MENU */}
+      {menuAberto && (
+        <BaseView style={styles.menuContainer}>
+
+          <MyTouchableOpacity
+            style={styles.menuBtn}
+            onPress={() => {
+              setMenuAberto(false);
+              navigation.navigate('Login');
+            }}
           >
-            <MyText style={styles.navBtnText}>LOGIN</MyText>
+            <MyText style={styles.menuText}>Login</MyText>
           </MyTouchableOpacity>
 
-          <MyTouchableOpacity 
-            style={[styles.navIconBtn, styles.registerBtn]} 
-            onPress={() => setTelaAtual('cadastro')} // Agora muda o estado
+          <MyTouchableOpacity
+            style={styles.menuBtn}
+            onPress={() => {
+              setMenuAberto(false);
+              navigation.navigate('Cadastro');
+            }}
           >
-            <MyText style={styles.navBtnText}>CADASTRO</MyText>
+            <MyText style={styles.menuText}>Cadastro</MyText>
           </MyTouchableOpacity>
+
         </BaseView>
-      </MyView>
+      )}
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <MyView style={styles.contentSection}>
-          <MyText style={styles.sectionTitle}>Resumo de Vendas</MyText>
-          
-          <Container>
-            <MyView style={styles.statsRow}>
-              <MyView style={styles.statBox}>
-                <MyText style={styles.statValue}>128</MyText>
-                <MyText style={styles.statLabel}>Vendas</MyText>
-              </MyView>
-              
-              <MyView style={styles.divider} />
 
-              <MyView style={styles.statBox}>
-                <MyText style={styles.statValue}>R$ 45.200</MyText>
-                <MyText style={styles.statLabel}>Receita</MyText>
-              </MyView>
+        <MyText style={styles.sectionTitle}>Resumo</MyText>
+
+        <BaseView style={styles.cardsRow}>
+          <Container>
+            <MyView style={styles.card}>
+              <MyText style={styles.cardValue}>128</MyText>
+              <MyText style={styles.cardLabel}>Vendas</MyText>
             </MyView>
           </Container>
 
-          <MyView style={{ marginTop: 20 }}>
-            <Container>
-               <MyView style={styles.statBox}>
-                <MyText style={[styles.statValue, { color: '#28a745' }]}>+ 15%</MyText>
-                <MyText style={styles.statLabel}>Crescimento Mensal</MyText>
-              </MyView>
-            </Container>
-          </MyView>
+          <Container>
+            <MyView style={styles.card}>
+              <MyText style={styles.cardValue}>R$ 45.200</MyText>
+              <MyText style={styles.cardLabel}>Receita</MyText>
+            </MyView>
+          </Container>
+        </BaseView>
 
-        </MyView>
+        <Container>
+          <MyView style={styles.card}>
+            <MyText style={[styles.cardValue,{color:'#28a745'}]}>+15%</MyText>
+            <MyText style={styles.cardLabel}>Crescimento Mensal</MyText>
+          </MyView>
+        </Container>
+
+        <MyText style={styles.sectionTitle}>Ações rápidas</MyText>
+
+        <BaseView style={styles.actionRow}>
+          <MyTouchableOpacity style={styles.actionBtn}>
+            <MyText style={styles.actionText}>📱 Produtos</MyText>
+          </MyTouchableOpacity>
+
+          <MyTouchableOpacity style={styles.actionBtn}>
+            <MyText style={styles.actionText}>💰 Vendas</MyText>
+          </MyTouchableOpacity>
+
+          <MyTouchableOpacity style={styles.actionBtn}>
+            <MyText style={styles.actionText}>📊 Relatórios</MyText>
+          </MyTouchableOpacity>
+        </BaseView>
+
+        <MyText style={styles.sectionTitle}>Produto em destaque</MyText>
+
+        <Container>
+          <MyView style={styles.highlight}>
+            <MyText style={styles.highlightTitle}>Galaxy S24 Ultra</MyText>
+            <MyText style={styles.highlightPrice}>R$ 6.999</MyText>
+
+            <MyTouchableOpacity style={styles.buyBtn}>
+              <MyText style={styles.buyText}>VER PRODUTO</MyText>
+            </MyTouchableOpacity>
+          </MyView>
+        </Container>
+
       </ScrollView>
+
     </MyView>
   );
 }
 
 const styles = StyleSheet.create({
-  mainContainer: { flex: 1, backgroundColor: '#f8f7ff' },
-  navbar: {
-    height: 110,
-    backgroundColor: '#6f42c1',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 15,
-    paddingTop: 45,
-    elevation: 4,
+
+  mainContainer:{
+    flex:1,
+    backgroundColor:'#f4f6fb'
   },
-  logoText: { color: 'white', fontSize: 18, fontWeight: 'bold', letterSpacing: 1 },
-  navButtons: { flexDirection: 'row', gap: 8 },
-  navIconBtn: { 
-    backgroundColor: 'rgba(255,255,255,0.15)', 
-    paddingVertical: 6, 
-    paddingHorizontal: 12, 
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.3)'
+
+  /* NAVBAR */
+  navbar:{
+    height:70,
+    backgroundColor:'#2c2c2c',
+    flexDirection:'row',
+    alignItems:'center',
+    paddingHorizontal:20,
+    gap:15
   },
-  registerBtn: { backgroundColor: '#28a745', borderColor: '#218838' },
-  navBtnText: { color: 'white', fontSize: 11, fontWeight: 'bold' },
-  scrollContent: { paddingBottom: 30, alignItems: 'center' },
-  contentSection: { width: '100%', paddingHorizontal: 20, paddingTop: 20 },
-  sectionTitle: { fontSize: 22, fontWeight: 'bold', color: '#333', marginBottom: 20, textAlign: 'left' },
-  statsRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  statBox: { alignItems: 'center', flex: 1 },
-  divider: { width: 1, height: 40, backgroundColor: '#eee' },
-  statValue: { fontSize: 24, fontWeight: 'bold', color: '#6f42c1' },
-  statLabel: { fontSize: 12, color: '#888', marginTop: 4, textTransform: 'uppercase' },
+
+  menuIcon:{
+    color:'white',
+    fontSize:26
+  },
+
+  navTitle:{
+    color:'white',
+    fontSize:18,
+    fontWeight:'bold'
+  },
+
+  menuContainer:{
+    backgroundColor:'#3a3a3a'
+  },
+
+  menuBtn:{
+    padding:15,
+    borderBottomWidth:1,
+    borderBottomColor:'#555'
+  },
+
+  menuText:{
+    color:'white',
+    fontSize:16
+  },
+
+  scrollContent:{
+    padding:20,
+    gap:15
+  },
+
+  sectionTitle:{
+    fontSize:20,
+    fontWeight:'bold',
+    marginTop:10,
+    marginBottom:10,
+    color:'#333'
+  },
+
+  cardsRow:{
+    flexDirection:'row',
+    gap:10
+  },
+
+  card:{
+    alignItems:'center',
+    padding:10
+  },
+
+  cardValue:{
+    fontSize:22,
+    fontWeight:'bold',
+    color:'#6f42c1'
+  },
+
+  cardLabel:{
+    fontSize:12,
+    color:'#777',
+    marginTop:4
+  },
+
+  actionRow:{
+    flexDirection:'row',
+    justifyContent:'space-between'
+  },
+
+  actionBtn:{
+    backgroundColor:'#6f42c1',
+    padding:14,
+    borderRadius:10,
+    flex:1,
+    alignItems:'center',
+    marginHorizontal:4
+  },
+
+  actionText:{
+    color:'white',
+    fontWeight:'bold',
+    fontSize:12
+  },
+
+  highlight:{
+    alignItems:'center',
+    padding:15
+  },
+
+  highlightTitle:{
+    fontSize:18,
+    fontWeight:'bold'
+  },
+
+  highlightPrice:{
+    fontSize:20,
+    color:'#6f42c1',
+    marginVertical:10,
+    fontWeight:'bold'
+  },
+
+  buyBtn:{
+    backgroundColor:'#007bff',
+    paddingVertical:10,
+    paddingHorizontal:20,
+    borderRadius:8
+  },
+
+  buyText:{
+    color:'white',
+    fontWeight:'bold'
+  }
+
 });

@@ -7,27 +7,36 @@ import MyTouchableOpacity from '../componentes/TouchableOpacity';
 import MyImageBackground from '../componentes/ImageBackground';
 import Container from '../componentes/Container';
 
-export default function Cadastro({ onBack }) { // Adicionada a prop onBack
+
+export default function Cadastro({ navigation }) {
+
+
+export default function Cadastro({ onBack }) { // Adicionada a prop onBa
   return (
     <MyImageBackground source={{ uri: 'https://images.unsplash.com/photo-1557683311-eac922347aa1' }}>
       <BaseView style={styles.overlay}>
         
-        {/* Botão de Voltar */}
-        <MyTouchableOpacity style={styles.backButton} onPress={onBack}>
+        <MyTouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.navigate('Home')}
+        >
           <MyText style={styles.backText}>←</MyText>
         </MyTouchableOpacity>
 
         <Container>
+
           <MyText style={styles.title}>Criar Conta</MyText>
-          
-          <MyTextInput placeholder="Nome Completo" />
-          <MyTextInput placeholder="E-mail" keyboardType="email-address" />
-          <MyTextInput placeholder="Senha" secureTextEntry />
+
+          <MyTextInput placeholder="Nome Completo"/>
+          <MyTextInput placeholder="E-mail" keyboardType="email-address"/>
+          <MyTextInput placeholder="Senha" secureTextEntry/>
 
           <MyTouchableOpacity style={styles.btnSuccess}>
             <MyText style={styles.btnText}>CADASTRAR</MyText>
           </MyTouchableOpacity>
+
         </Container>
+
       </BaseView>
     </MyImageBackground>
   );
