@@ -7,8 +7,11 @@ import MyTouchableOpacity from '../componentes/TouchableOpacity';
 import MyImageBackground from '../componentes/ImageBackground';
 import Container from '../componentes/Container';
 
+
 export default function Cadastro({ navigation }) {
 
+
+export default function Cadastro({ onBack }) { // Adicionada a prop onBa
   return (
     <MyImageBackground source={{ uri: 'https://images.unsplash.com/photo-1557683311-eac922347aa1' }}>
       <BaseView style={styles.overlay}>
