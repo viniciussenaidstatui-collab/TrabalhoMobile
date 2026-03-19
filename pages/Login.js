@@ -1,4 +1,7 @@
+import useState from 'react';
+
 import React from 'react';
+import {Image, Text, Alert} from "react-native"
 import { StyleSheet, View as BaseView } from 'react-native';
 import MyView from '../componentes/View';
 import MyText from '../componentes/Text';
@@ -7,7 +10,7 @@ import MyTouchableOpacity from '../componentes/TouchableOpacity';
 import MyImageBackground from '../componentes/ImageBackground';
 import Container from '../componentes/Container';
 
-export default function Login({ navigation }) {
+  
 
   return (
     <MyImageBackground source={{ uri: 'https://images.unsplash.com/photo-1557683316-973673baf926' }}>
@@ -24,11 +27,12 @@ export default function Login({ navigation }) {
 
           <MyText style={styles.title}>Login</MyText>
           
-          <MyTextInput placeholder="E-mail" keyboardType="email-address"/>
-          <MyTextInput placeholder="Senha" secureTextEntry/>
+          <MyTextInput placeholder={"E-mail"} value={user} onChangeText= {setUser} keyboardType="email-address"/>
+          <MyTextInput placeholder={"Senha"} value={user} onChangeText= {setPass} secureTextEntry/>
+          
 
           <MyTouchableOpacity style={styles.btnPrimary}>
-            <MyText style={styles.btnText}>ENTRAR</MyText>
+            <MyText style={styles.btnText} btnText={"LOGIN"} onPress={logar} >ENTRAR</MyText>
           </MyTouchableOpacity>
 
         </Container>
@@ -36,7 +40,8 @@ export default function Login({ navigation }) {
       </BaseView>
     </MyImageBackground>
   );
-}
+
+
 
 const styles = StyleSheet.create({
   overlay:{

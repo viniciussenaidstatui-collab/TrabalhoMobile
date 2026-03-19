@@ -8,17 +8,37 @@ import MyImageBackground from '../componentes/ImageBackground';
 import Container from '../componentes/Container';
 
 
-export default function Cadastro({ navigation }) {
+export default function Cadastro({ navigation, onBack }) { 
+  // Agora recebe navigation como prop
 
+  const handleCadastro = () => {
+    // Aqui você faria a requisição para o backend
+    // Exemplo:
+    fetch('http://127.0.0.1:8080/api/usuario', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nome: nome,
+        email: email,
+        senha: senha
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        navigation.navigate('Home');
+      }
+    })
+    .catch(error => console.error('Erro:', error));
+  };
 
-export default function Cadastro({ onBack }) { // Adicionada a prop onBa
   return (
     <MyImageBackground source={{ uri: 'https://images.unsplash.com/photo-1557683311-eac922347aa1' }}>
       <BaseView style={styles.overlay}>
         
         <MyTouchableOpacity
           style={styles.backButton}
-          onPress={() => navigation.navigate('Home')}
+          onPress={() => navigation?.goBack() || onBack?.()} // Usa navigation.goBack() se disponível
         >
           <MyText style={styles.backText}>←</MyText>
         </MyTouchableOpacity>
@@ -31,7 +51,10 @@ export default function Cadastro({ onBack }) { // Adicionada a prop onBa
           <MyTextInput placeholder="E-mail" keyboardType="email-address"/>
           <MyTextInput placeholder="Senha" secureTextEntry/>
 
-          <MyTouchableOpacity style={styles.btnSuccess}>
+          <MyTouchableOpacity 
+            style={styles.btnSuccess}
+            onPress={handleCadastro}
+          >
             <MyText style={styles.btnText}>CADASTRAR</MyText>
           </MyTouchableOpacity>
 
@@ -41,13 +64,3 @@ export default function Cadastro({ onBack }) { // Adicionada a prop onBa
     </MyImageBackground>
   );
 }
-
-const styles = StyleSheet.create({
-  overlay: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.3)' },
-  title: { fontSize: 30, fontWeight: 'bold', textAlign: 'center', marginBottom: 20 },
-  btnSuccess: { backgroundColor: '#28a745', padding: 15, borderRadius: 10, alignItems: 'center' },
-  btnText: { color: 'white', fontWeight: 'bold' },
-  // Estilo da Seta
-  backButton: { position: 'absolute', top: 50, left: 20, backgroundColor: 'rgba(255,255,255,0.3)', width: 40, height: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center' },
-  backText: { color: 'white', fontSize: 24, fontWeight: 'bold' }
-});
