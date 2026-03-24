@@ -1,16 +1,27 @@
-import useState from 'react';
-
-import React from 'react';
-import {Image, Text, Alert} from "react-native"
-import { StyleSheet, View as BaseView } from 'react-native';
-import MyView from '../componentes/View';
+import React, { useState } from 'react'; // Corrigido o import do useState
+import { StyleSheet, View as BaseView, Alert } from 'react-native';
 import MyText from '../componentes/Text';
 import MyTextInput from '../componentes/TextInput';
 import MyTouchableOpacity from '../componentes/TouchableOpacity';
 import MyImageBackground from '../componentes/ImageBackground';
 import Container from '../componentes/Container';
 
+// Você precisa declarar a função e exportá-la
+export default function Login({ navigation }) {
   
+  // Criando as variáveis para guardar o que o usuário digita
+  const [user, setUser] = useState('');
+  const [pass, setPass] = useState('');
+
+  // Função que é chamada ao clicar no botão ENTRAR
+  const logar = () => {
+    if (user === '' || pass === '') {
+      Alert.alert("Erro", "Preencha todos os campos!");
+    } else {
+      Alert.alert("Sucesso", `Bem-vindo, ${user}!`);
+      // Aqui você poderia usar: navigation.navigate('Home')
+    }
+  };
 
   return (
     <MyImageBackground source={{ uri: 'https://images.unsplash.com/photo-1557683316-973673baf926' }}>
@@ -24,15 +35,24 @@ import Container from '../componentes/Container';
         </MyTouchableOpacity>
 
         <Container>
-
           <MyText style={styles.title}>Login</MyText>
           
-          <MyTextInput placeholder={"E-mail"} value={user} onChangeText= {setUser} keyboardType="email-address"/>
-          <MyTextInput placeholder={"Senha"} value={user} onChangeText= {setPass} secureTextEntry/>
-          
+          <MyTextInput 
+            placeholder={"E-mail"} 
+            value={user} 
+            onChangeText={setUser} 
+            keyboardType="email-address"
+          />
 
-          <MyTouchableOpacity style={styles.btnPrimary}>
-            <MyText style={styles.btnText} btnText={"LOGIN"} onPress={logar} >ENTRAR</MyText>
+          <MyTextInput 
+            placeholder={"Senha"} 
+            value={pass} // Corrigido de 'user' para 'pass'
+            onChangeText={setPass} 
+            secureTextEntry
+          />
+
+          <MyTouchableOpacity style={styles.btnPrimary} onPress={logar}>
+            <MyText style={styles.btnText}>ENTRAR</MyText>
           </MyTouchableOpacity>
 
         </Container>
@@ -40,8 +60,7 @@ import Container from '../componentes/Container';
       </BaseView>
     </MyImageBackground>
   );
-
-
+}
 
 const styles = StyleSheet.create({
   overlay:{
@@ -50,26 +69,24 @@ const styles = StyleSheet.create({
     alignItems:'center',
     backgroundColor:'rgba(0,0,0,0.3)'
   },
-
   title:{
     fontSize:30,
     fontWeight:'bold',
     textAlign:'center',
-    marginBottom:20
+    marginBottom:20,
+    color: 'white' // Adicionei cor branca para aparecer no fundo escuro
   },
-
   btnPrimary:{
     backgroundColor:'#007bff',
     padding:15,
     borderRadius:10,
-    alignItems:'center'
+    alignItems:'center',
+    marginTop: 20
   },
-
   btnText:{
     color:'white',
     fontWeight:'bold'
   },
-
   menuButton:{
     position:'absolute',
     top:50,
@@ -81,7 +98,6 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems:'center'
   },
-
   menuText:{
     color:'white',
     fontSize:24,

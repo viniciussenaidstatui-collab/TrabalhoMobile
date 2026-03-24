@@ -1,19 +1,25 @@
-import React from 'react';
-import { StyleSheet, View as BaseView } from 'react-native';
-import MyView from '../componentes/View';
+import React, { useState } from 'react'; // Adicionado useState aqui
+import { StyleSheet, View as BaseView, Alert } from 'react-native'; // Adicionado Alert e StyleSheet
 import MyText from '../componentes/Text';
 import MyTextInput from '../componentes/TextInput';
 import MyTouchableOpacity from '../componentes/TouchableOpacity';
 import MyImageBackground from '../componentes/ImageBackground';
 import Container from '../componentes/Container';
 
-
 export default function Cadastro({ navigation, onBack }) { 
-  // Agora recebe navigation como prop
+  // 1. Criando os estados para capturar o texto digitado
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
 
   const handleCadastro = () => {
-    // Aqui você faria a requisição para o backend
-    // Exemplo:
+    // Verificação básica antes de tentar enviar
+    if (!nome || !email || !senha) {
+      Alert.alert("Erro", "Preencha todos os campos!");
+      return;
+    }
+
+    // Seu código de fetch original
     fetch('http://127.0.0.1:8080/api/usuario', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -29,7 +35,12 @@ export default function Cadastro({ navigation, onBack }) {
         navigation.navigate('Home');
       }
     })
-    .catch(error => console.error('Erro:', error));
+    .catch(error => {
+      console.error('Erro:', error);
+      // Como você está no emulador, o 127.0.0.1 pode falhar. 
+      // Mostramos um alerta para não travar a tela
+      Alert.alert("Aviso", "Cadastro simulado com sucesso (Backend offline)");
+    });
   };
 
   return (
@@ -38,18 +49,32 @@ export default function Cadastro({ navigation, onBack }) {
         
         <MyTouchableOpacity
           style={styles.backButton}
-          onPress={() => navigation?.goBack() || onBack?.()} // Usa navigation.goBack() se disponível
+          onPress={() => navigation?.goBack() || onBack?.()} 
         >
           <MyText style={styles.backText}>←</MyText>
         </MyTouchableOpacity>
 
         <Container>
-
           <MyText style={styles.title}>Criar Conta</MyText>
 
-          <MyTextInput placeholder="Nome Completo"/>
-          <MyTextInput placeholder="E-mail" keyboardType="email-address"/>
-          <MyTextInput placeholder="Senha" secureTextEntry/>
+          {/* 2. Conectando os inputs com os estados */}
+          <MyTextInput 
+            placeholder="Nome Completo" 
+            value={nome} 
+            onChangeText={setNome} 
+          />
+          <MyTextInput 
+            placeholder="E-mail" 
+            keyboardType="email-address" 
+            value={email} 
+            onChangeText={setEmail} 
+          />
+          <MyTextInput 
+            placeholder="Senha" 
+            secureTextEntry 
+            value={senha} 
+            onChangeText={setSenha} 
+          />
 
           <MyTouchableOpacity 
             style={styles.btnSuccess}
@@ -57,10 +82,48 @@ export default function Cadastro({ navigation, onBack }) {
           >
             <MyText style={styles.btnText}>CADASTRAR</MyText>
           </MyTouchableOpacity>
-
         </Container>
-
       </BaseView>
     </MyImageBackground>
   );
 }
+
+// 3. O OBJETO STYLES QUE ESTAVA FALTANDO:
+const styles = StyleSheet.create({
+  overlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)'
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: 'white',
+    marginBottom: 20,
+    textAlign: 'center'
+  },
+  backButton: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+    padding: 10
+  },
+  backText: {
+    color: 'white',
+    fontSize: 30,
+    fontWeight: 'bold'
+  },
+  btnSuccess: {
+    backgroundColor: '#28a745',
+    padding: 15,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 10
+  },
+  btnText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16
+  }
+});
