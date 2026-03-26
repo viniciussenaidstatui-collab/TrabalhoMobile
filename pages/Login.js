@@ -1,106 +1,128 @@
-import React, { useState } from 'react'; // Corrigido o import do useState
-import { StyleSheet, View as BaseView, Alert } from 'react-native';
-import MyText from '../componentes/Text';
-import MyTextInput from '../componentes/TextInput';
-import MyTouchableOpacity from '../componentes/TouchableOpacity';
-import MyImageBackground from '../componentes/ImageBackground';
-import Container from '../componentes/Container';
+import React, { useState } from 'react';
+import { 
+  StyleSheet, 
+  View, 
+  Text, 
+  TextInput, 
+  TouchableOpacity, 
+  ImageBackground, 
+  Alert 
+} from 'react-native';
 
-// Você precisa declarar a função e exportá-la
 export default function Login({ navigation }) {
-  
-  // Criando as variáveis para guardar o que o usuário digita
+  // Variáveis para guardar o que o usuário digita
   const [user, setUser] = useState('');
   const [pass, setPass] = useState('');
 
-  // Função que é chamada ao clicar no botão ENTRAR
+  // Função de login (mantendo sua lógica original)
   const logar = () => {
     if (user === '' || pass === '') {
       Alert.alert("Erro", "Preencha todos os campos!");
     } else {
+      // Mantive exatamente o seu "Bem-vindo"
       Alert.alert("Sucesso", `Bem-vindo, ${user}!`);
-      // Aqui você poderia usar: navigation.navigate('Home')
+      navigation.navigate('Home');
     }
   };
 
   return (
-    <MyImageBackground source={{ uri: 'https://images.unsplash.com/photo-1557683316-973673baf926' }}>
-      <BaseView style={styles.overlay}>
+    <ImageBackground 
+      source={{ uri: 'https://images.unsplash.com/photo-1557683316-973673baf926' }} 
+      style={styles.background}
+    >
+      <View style={styles.overlay}>
         
-        <MyTouchableOpacity 
-          style={styles.menuButton} 
-          onPress={() => navigation.navigate('Home')}
-        >
-          <MyText style={styles.menuText}>←</MyText>
-        </MyTouchableOpacity>
-
-        <Container>
-          <MyText style={styles.title}>Login</MyText>
+        {/* Botão de voltar */}
+        <View style={styles.container}>
+          <Text style={styles.title}>Login</Text>
           
-          <MyTextInput 
-            placeholder={"E-mail"} 
+          <TextInput 
+            style={styles.input}
+            placeholder="E-mail" 
+            placeholderTextColor="#ccc"
             value={user} 
             onChangeText={setUser} 
             keyboardType="email-address"
+            autoCapitalize="none"
           />
 
-          <MyTextInput 
-            placeholder={"Senha"} 
-            value={pass} // Corrigido de 'user' para 'pass'
+          <TextInput 
+            style={styles.input}
+            placeholder="Senha" 
+            placeholderTextColor="#ccc"
+            value={pass} 
             onChangeText={setPass} 
             secureTextEntry
           />
 
-          <MyTouchableOpacity style={styles.btnPrimary} onPress={logar}>
-            <MyText style={styles.btnText}>ENTRAR</MyText>
-          </MyTouchableOpacity>
+          <TouchableOpacity style={styles.btnPrimary} onPress={logar}>
+            <Text style={styles.btnText}>ENTRAR</Text>
+          </TouchableOpacity>
+        </View>
 
-        </Container>
-
-      </BaseView>
-    </MyImageBackground>
+      </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  overlay:{
-    flex:1,
-    justifyContent:'center',
-    alignItems:'center',
-    backgroundColor:'rgba(0,0,0,0.3)'
+  background: {
+    flex: 1,
   },
-  title:{
-    fontSize:30,
-    fontWeight:'bold',
-    textAlign:'center',
-    marginBottom:20,
-    color: 'white' // Adicionei cor branca para aparecer no fundo escuro
+  overlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)', // Escurece um pouco o fundo
   },
-  btnPrimary:{
-    backgroundColor:'#007bff',
-    padding:15,
-    borderRadius:10,
-    alignItems:'center',
-    marginTop: 20
+  container: {
+    width: '85%',
+    padding: 20,
+    backgroundColor: 'rgba(255,255,255,0.1)', // Efeito de vidro suave
+    borderRadius: 15,
   },
-  btnText:{
-    color:'white',
-    fontWeight:'bold'
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 30,
+    color: 'white',
   },
-  menuButton:{
-    position:'absolute',
-    top:50,
-    left:20,
-    backgroundColor:'rgba(255,255,255,0.3)',
-    width:40,
-    height:40,
-    borderRadius:20,
-    justifyContent:'center',
-    alignItems:'center'
+  input: {
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    height: 50,
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    color: 'white',
+    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.3)',
   },
-  menuText:{
-    color:'white',
-    fontSize:24,
-    fontWeight:'bold'
+  btnPrimary: {
+    backgroundColor: '#007bff',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  btnText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  menuButton: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    width: 45,
+    height: 45,
+    borderRadius: 22.5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  menuText: {
+    color: 'white',
+    fontSize: 24,
   }
 });

@@ -7,6 +7,7 @@ import Splash from './pages/splash';
 import Home from './pages/Home';
 import Cadastro from './pages/Cadastro';
 import Login from './pages/Login';
+import cep from './pages/cep';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +35,11 @@ export default function App() {
         <Stack.Screen
           name="Login"
           component={Login}
+        />
+
+         <Stack.Screen
+          name="cep"
+          component={cep}
         />
 
       </Stack.Navigator>

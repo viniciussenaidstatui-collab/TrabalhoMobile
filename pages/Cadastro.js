@@ -1,123 +1,153 @@
-import React, { useState } from 'react'; // Adicionado useState aqui
-import { StyleSheet, View as BaseView, Alert } from 'react-native'; // Adicionado Alert e StyleSheet
-import MyText from '../componentes/Text';
-import MyTextInput from '../componentes/TextInput';
-import MyTouchableOpacity from '../componentes/TouchableOpacity';
-import MyImageBackground from '../componentes/ImageBackground';
-import Container from '../componentes/Container';
+import React, { useState } from 'react';
+import { 
+  StyleSheet, 
+  View, 
+  Text, 
+  TextInput, 
+  TouchableOpacity, 
+  ImageBackground, 
+  Alert 
+} from 'react-native';
 
-export default function Cadastro({ navigation, onBack }) { 
-  // 1. Criando os estados para capturar o texto digitado
+export default function Cadastro({ navigation }) { 
+  // Estados para capturar o texto digitado
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
   const handleCadastro = () => {
-    // Verificação básica antes de tentar enviar
+    // Verificação básica
     if (!nome || !email || !senha) {
       Alert.alert("Erro", "Preencha todos os campos!");
       return;
     }
 
-    // Seu código de fetch original
+    // Lógica de envio (Mantendo sua estrutura original)
     fetch('http://127.0.0.1:8080/api/usuario', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        nome: nome,
-        email: email,
-        senha: senha
-      })
+      body: JSON.stringify({ nome, email, senha })
     })
     .then(response => response.json())
     .then(data => {
       if (data.success) {
-        navigation.navigate('Home');
+        Alert.alert("Sucesso", "Conta criada com sucesso!");
+        navigation.navigate('Login');
       }
     })
     .catch(error => {
-      console.error('Erro:', error);
-      // Como você está no emulador, o 127.0.0.1 pode falhar. 
-      // Mostramos um alerta para não travar a tela
+      // O Alerta que você pediu para manter (Falsa confirmação)
+      console.log('Erro de rede esperado:', error);
       Alert.alert("Aviso", "Cadastro simulado com sucesso (Backend offline)");
+      navigation.navigate('Login');
     });
   };
 
   return (
-    <MyImageBackground source={{ uri: 'https://images.unsplash.com/photo-1557683311-eac922347aa1' }}>
-      <BaseView style={styles.overlay}>
+    <ImageBackground 
+      source={{ uri: 'https://images.unsplash.com/photo-1557683311-eac922347aa1' }}
+      style={styles.background}
+    >
+      <View style={styles.overlay}>
         
-        <MyTouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation?.goBack() || onBack?.()} 
-        >
-          <MyText style={styles.backText}>←</MyText>
-        </MyTouchableOpacity>
+        {/* Botão Voltar */}
+       
 
-        <Container>
-          <MyText style={styles.title}>Criar Conta</MyText>
+        <View style={styles.container}>
+          <Text style={styles.title}>Criar Conta</Text>
 
-          {/* 2. Conectando os inputs com os estados */}
-          <MyTextInput 
+          <TextInput 
+            style={styles.input}
             placeholder="Nome Completo" 
+            placeholderTextColor="#ccc"
             value={nome} 
             onChangeText={setNome} 
           />
-          <MyTextInput 
+          
+          <TextInput 
+            style={styles.input}
             placeholder="E-mail" 
+            placeholderTextColor="#ccc"
             keyboardType="email-address" 
+            autoCapitalize="none"
             value={email} 
             onChangeText={setEmail} 
           />
-          <MyTextInput 
+          
+          <TextInput 
+            style={styles.input}
             placeholder="Senha" 
+            placeholderTextColor="#ccc"
             secureTextEntry 
             value={senha} 
             onChangeText={setSenha} 
           />
 
-          <MyTouchableOpacity 
+          <TouchableOpacity 
             style={styles.btnSuccess}
             onPress={handleCadastro}
           >
-            <MyText style={styles.btnText}>CADASTRAR</MyText>
-          </MyTouchableOpacity>
-        </Container>
-      </BaseView>
-    </MyImageBackground>
+            <Text style={styles.btnText}>CADASTRAR</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </ImageBackground>
   );
 }
 
-// 3. O OBJETO STYLES QUE ESTAVA FALTANDO:
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+  },
   overlay: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.4)'
   },
+  container: {
+    width: '85%',
+    padding: 20,
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    borderRadius: 15,
+  },
   title: {
     fontSize: 30,
     fontWeight: 'bold',
     color: 'white',
-    marginBottom: 20,
+    marginBottom: 25,
     textAlign: 'center'
+  },
+  input: {
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    height: 50,
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    color: 'white',
+    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.3)',
   },
   backButton: {
     position: 'absolute',
     top: 50,
     left: 20,
-    padding: 10
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    width: 45,
+    height: 45,
+    borderRadius: 22.5,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   backText: {
     color: 'white',
-    fontSize: 30,
+    fontSize: 24,
     fontWeight: 'bold'
   },
   btnSuccess: {
     backgroundColor: '#28a745',
     padding: 15,
-    borderRadius: 8,
+    borderRadius: 10,
     alignItems: 'center',
     marginTop: 10
   },

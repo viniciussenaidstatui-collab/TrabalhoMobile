@@ -1,42 +1,40 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { ImageBackground, Image, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
-export default function Splash(){
+export default function Splash({ navigation }) {
 
-    const navigation = useNavigation();
+  useEffect(() => {
+    // Espera 3 segundos e vai para o Login
+    const timer = setTimeout(() => {
+      navigation.replace('Login');
+    }, 3000);
 
-    useEffect(()=>{
+    return () => clearTimeout(timer);
+  }, []);
 
-        const time = setTimeout(()=>{
-            navigation.replace('Login');
-        },3000);
-
-        return ()=> clearTimeout(time);
-
-    },[]);
-
-    return(
-        <ImageBackground 
-            source={{uri:'https://wallpapers.com/images/featured/samsung-galaxy-ltwgp25zr4bnvfam.jpg'}} 
-            style={style.imgBack}
-        >
-            <Image 
-                source={require('../assets/logo.png')} 
-                style={style.imgLogo}
-            />
-        </ImageBackground>
-    )
+  return (
+    <ImageBackground 
+      source={{ uri: 'https://wallpapers.com/images/featured/samsung-galaxy-ltwgp25zr4bnvfam.jpg' }} 
+      style={styles.container}
+    >
+      <Image 
+        source={require('../assets/logo.png')} 
+        style={styles.logo}
+        resizeMode="contain" 
+      />
+    </ImageBackground>
+  );
 }
 
-const style = StyleSheet.create({
-    imgBack:{
-        flex:1, 
-        justifyContent:"center",
-        alignItems:"center"
-    },
-    imgLogo:{
-        width:400,
-        height:200
-    }
-})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1, 
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: '#000' // Fundo preto caso a imagem demore a carregar
+  },
+  logo: {
+    width: '80%', // Usar porcentagem ajuda a não quebrar em telas menores
+    height: 200
+  }
+});

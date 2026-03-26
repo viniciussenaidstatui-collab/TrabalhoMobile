@@ -1,241 +1,228 @@
-import React, { useState } from 'react';
-import { StyleSheet, ScrollView, View as BaseView } from 'react-native';
 
-import MyView from '../componentes/View';
-import MyText from '../componentes/Text';
-import MyTouchableOpacity from '../componentes/TouchableOpacity';
-import Container from '../componentes/Container';
+import React, { useState } from 'react';
+import {
+  StyleSheet,
+  ScrollView,
+  View,
+  Text,
+  TouchableOpacity
+} from 'react-native';
 
 export default function Home({ navigation }) {
-
   const [menuAberto, setMenuAberto] = useState(false);
 
   return (
-    <MyView style={styles.mainContainer}>
+    <View style={styles.mainContainer}>
 
       {/* NAVBAR */}
-      <BaseView style={styles.navbar}>
-        <MyTouchableOpacity onPress={() => setMenuAberto(!menuAberto)}>
-          <MyText style={styles.menuIcon}>☰</MyText>
-        </MyTouchableOpacity>
+      <View style={styles.navbar}>
+        <TouchableOpacity onPress={() => setMenuAberto(!menuAberto)}>
+          <Text style={styles.menuIcon}>☰</Text>
+        </TouchableOpacity>
+        <Text style={styles.navTitle}>SAMSUNG STORE</Text>
+      </View>
 
-        <MyText style={styles.navTitle}>SAMSUNG STORE</MyText>
-      </BaseView>
-
-      {/* MENU */}
+      {/* MENU RETRÁTIL */}
       {menuAberto && (
-        <BaseView style={styles.menuContainer}>
-
-          <MyTouchableOpacity
+        <View style={styles.menuContainer}>
+          <TouchableOpacity
             style={styles.menuBtn}
             onPress={() => {
               setMenuAberto(false);
               navigation.navigate('Login');
             }}
           >
-            <MyText style={styles.menuText}>Login</MyText>
-          </MyTouchableOpacity>
+            <Text style={styles.menuText}>Login</Text>
+          </TouchableOpacity>
 
-          <MyTouchableOpacity
+          <TouchableOpacity
             style={styles.menuBtn}
             onPress={() => {
               setMenuAberto(false);
               navigation.navigate('Cadastro');
             }}
           >
-            <MyText style={styles.menuText}>Cadastro</MyText>
-          </MyTouchableOpacity>
+            <Text style={styles.menuText}>Cadastro</Text>
+          </TouchableOpacity>
 
-        </BaseView>
+          <TouchableOpacity
+            style={styles.menuBtn}
+            onPress={() => {
+              setMenuAberto(false);
+              navigation.navigate('cep');
+            }}
+          >
+            <Text style={styles.menuText}>Cep</Text>
+          </TouchableOpacity>
+        </View>
       )}
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
+       
+        <Text style={styles.sectionTitle}>Resumo</Text>
 
-        <MyText style={styles.sectionTitle}>Resumo</MyText>
+        <View style={styles.cardsRow}>
+          <View style={styles.cardContainer}>
+            <Text style={styles.cardValue}>128</Text>
+            <Text style={styles.cardLabel}>Vendas</Text>
+          </View>
 
-        <BaseView style={styles.cardsRow}>
-          <Container>
-            <MyView style={styles.card}>
-              <MyText style={styles.cardValue}>128</MyText>
-              <MyText style={styles.cardLabel}>Vendas</MyText>
-            </MyView>
-          </Container>
+          <View style={styles.cardContainer}>
+            <Text style={styles.cardValue}>R$ 45.200</Text>
+            <Text style={styles.cardLabel}>Receita</Text>
+          </View>
+        </View>
 
-          <Container>
-            <MyView style={styles.card}>
-              <MyText style={styles.cardValue}>R$ 45.200</MyText>
-              <MyText style={styles.cardLabel}>Receita</MyText>
-            </MyView>
-          </Container>
-        </BaseView>
+        <View style={[styles.cardContainer, { width: '100%' }]}>
+          <Text style={[styles.cardValue, { color: '#28a745' }]}>+15%</Text>
+          <Text style={styles.cardLabel}>Crescimento Mensal</Text>
+        </View>
 
-        <Container>
-          <MyView style={styles.card}>
-            <MyText style={[styles.cardValue,{color:'#28a745'}]}>+15%</MyText>
-            <MyText style={styles.cardLabel}>Crescimento Mensal</MyText>
-          </MyView>
-        </Container>
+        <Text style={styles.sectionTitle}>Ações rápidas</Text>
 
-        <MyText style={styles.sectionTitle}>Ações rápidas</MyText>
+        <View style={styles.actionRow}>
+          <TouchableOpacity style={styles.actionBtn}>
+            <Text style={styles.actionText}>📱 Produtos</Text>
+          </TouchableOpacity>
 
-        <BaseView style={styles.actionRow}>
-          <MyTouchableOpacity style={styles.actionBtn}>
-            <MyText style={styles.actionText}>📱 Produtos</MyText>
-          </MyTouchableOpacity>
+          <TouchableOpacity style={styles.actionBtn}>
+            <Text style={styles.actionText}>💰 Vendas</Text>
+          </TouchableOpacity>
 
-          <MyTouchableOpacity style={styles.actionBtn}>
-            <MyText style={styles.actionText}>💰 Vendas</MyText>
-          </MyTouchableOpacity>
+          <TouchableOpacity style={styles.actionBtn}>
+            <Text style={styles.actionText}>📊 Relatórios</Text>
+          </TouchableOpacity>
+        </View>
 
-          <MyTouchableOpacity style={styles.actionBtn}>
-            <MyText style={styles.actionText}>📊 Relatórios</MyText>
-          </MyTouchableOpacity>
-        </BaseView>
+        <Text style={styles.sectionTitle}>Produto em destaque</Text>
 
-        <MyText style={styles.sectionTitle}>Produto em destaque</MyText>
+        <View style={styles.highlightCard}>
+          <Text style={styles.highlightTitle}>Galaxy S24 Ultra</Text>
+          <Text style={styles.highlightPrice}>R$ 6.999</Text>
 
-        <Container>
-          <MyView style={styles.highlight}>
-            <MyText style={styles.highlightTitle}>Galaxy S24 Ultra</MyText>
-            <MyText style={styles.highlightPrice}>R$ 6.999</MyText>
-
-            <MyTouchableOpacity style={styles.buyBtn}>
-              <MyText style={styles.buyText}>VER PRODUTO</MyText>
-            </MyTouchableOpacity>
-          </MyView>
-        </Container>
+          <TouchableOpacity style={styles.buyBtn}>
+            <Text style={styles.buyText}>VER PRODUTO</Text>
+          </TouchableOpacity>
+        </View>
 
       </ScrollView>
-
-    </MyView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-
-  mainContainer:{
-    flex:1,
-    backgroundColor:'#f4f6fb'
+  mainContainer: {
+    flex: 1,
+    backgroundColor: '#f4f6fb',
   },
-
-  /* NAVBAR */
-  navbar:{
-    height:70,
-    backgroundColor:'#2c2c2c',
-    flexDirection:'row',
-    alignItems:'center',
-    paddingHorizontal:20,
-    gap:15
+  navbar: {
+    height: 80,
+    backgroundColor: '#2c2c2c',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 20, // Espaço para a barra de status
   },
-
-  menuIcon:{
-    color:'white',
-    fontSize:26
+  menuIcon: {
+    color: 'white',
+    fontSize: 28,
+    marginRight: 15,
   },
-
-  navTitle:{
-    color:'white',
-    fontSize:18,
-    fontWeight:'bold'
+  navTitle: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
-
-  menuContainer:{
-    backgroundColor:'#3a3a3a'
+  menuContainer: {
+    backgroundColor: '#3a3a3a',
   },
-
-  menuBtn:{
-    padding:15,
-    borderBottomWidth:1,
-    borderBottomColor:'#555'
+  menuBtn: {
+    padding: 15,
+    borderBottomWidth: 0.5,
+    borderBottomColor: '#555',
   },
-
-  menuText:{
-    color:'white',
-    fontSize:16
+  menuText: {
+    color: 'white',
+    fontSize: 16,
   },
-
-  scrollContent:{
-    padding:20,
-    gap:15
+  scrollContent: {
+    padding: 20,
   },
-
-  sectionTitle:{
-    fontSize:20,
-    fontWeight:'bold',
-    marginTop:10,
-    marginBottom:10,
-    color:'#333'
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginVertical: 15,
+    color: '#333',
   },
-
-  cardsRow:{
-    flexDirection:'row',
-    gap:10
+  cardsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
   },
-
-  card:{
-    alignItems:'center',
-    padding:10
+  cardContainer: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 12,
+    alignItems: 'center',
+    width: '48%',
+    elevation: 3, // Sombra no Android
+    shadowColor: '#000', // Sombra no iOS
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
-
-  cardValue:{
-    fontSize:22,
-    fontWeight:'bold',
-    color:'#6f42c1'
+  cardValue: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#6f42c1',
   },
-
-  cardLabel:{
-    fontSize:12,
-    color:'#777',
-    marginTop:4
+  cardLabel: {
+    fontSize: 12,
+    color: '#777',
+    marginTop: 5,
   },
-
-  actionRow:{
-    flexDirection:'row',
-    justifyContent:'space-between'
+  actionRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
-
-  actionBtn:{
-    backgroundColor:'#6f42c1',
-    padding:14,
-    borderRadius:10,
-    flex:1,
-    alignItems:'center',
-    marginHorizontal:4
+  actionBtn: {
+    backgroundColor: '#6f42c1',
+    padding: 12,
+    borderRadius: 10,
+    flex: 1,
+    alignItems: 'center',
+    marginHorizontal: 4,
   },
-
-  actionText:{
-    color:'white',
-    fontWeight:'bold',
-    fontSize:12
+  actionText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 11,
   },
-
-  highlight:{
-    alignItems:'center',
-    padding:15
+  highlightCard: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 12,
+    alignItems: 'center',
+    elevation: 3,
   },
-
-  highlightTitle:{
-    fontSize:18,
-    fontWeight:'bold'
+  highlightTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
   },
-
-  highlightPrice:{
-    fontSize:20,
-    color:'#6f42c1',
-    marginVertical:10,
-    fontWeight:'bold'
+  highlightPrice: {
+    fontSize: 22,
+    color: '#6f42c1',
+    marginVertical: 10,
+    fontWeight: 'bold',
   },
-
-  buyBtn:{
-    backgroundColor:'#007bff',
-    paddingVertical:10,
-    paddingHorizontal:20,
-    borderRadius:8
+  buyBtn: {
+    backgroundColor: '#007bff',
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 25,
   },
-
-  buyText:{
-    color:'white',
-    fontWeight:'bold'
-  }
-
+  buyText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
 });
