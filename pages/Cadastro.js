@@ -10,19 +10,15 @@ import {
 } from 'react-native';
 
 export default function Cadastro({ navigation }) { 
-  // Estados para capturar o texto digitado
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
   const handleCadastro = () => {
-    // Verificação básica
     if (!nome || !email || !senha) {
       Alert.alert("Erro", "Preencha todos os campos!");
       return;
     }
-
-    // Lógica de envio (Mantendo sua estrutura original)
     fetch('http://127.0.0.1:8080/api/usuario', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -36,23 +32,17 @@ export default function Cadastro({ navigation }) {
       }
     })
     .catch(error => {
-      // O Alerta que você pediu para manter (Falsa confirmação)
       console.log('Erro de rede esperado:', error);
-      Alert.alert("Aviso", "Cadastro simulado com sucesso (Backend offline)");
+      Alert.alert("Aviso", "Cadastro simulado com sucesso");
       navigation.navigate('Login');
     });
   };
-
   return (
     <ImageBackground 
       source={{ uri: 'https://images.unsplash.com/photo-1557683311-eac922347aa1' }}
       style={styles.background}
     >
       <View style={styles.overlay}>
-        
-        {/* Botão Voltar */}
-       
-
         <View style={styles.container}>
           <Text style={styles.title}>Criar Conta</Text>
 

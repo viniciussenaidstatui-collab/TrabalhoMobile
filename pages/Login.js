@@ -10,16 +10,12 @@ import {
 } from 'react-native';
 
 export default function Login({ navigation }) {
-  // Variáveis para guardar o que o usuário digita
   const [user, setUser] = useState('');
   const [pass, setPass] = useState('');
-
-  // Função de login (mantendo sua lógica original)
   const logar = () => {
     if (user === '' || pass === '') {
       Alert.alert("Erro", "Preencha todos os campos!");
     } else {
-      // Mantive exatamente o seu "Bem-vindo"
       Alert.alert("Sucesso", `Bem-vindo, ${user}!`);
       navigation.navigate('Home');
     }
@@ -73,12 +69,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.4)', // Escurece um pouco o fundo
+    backgroundColor: 'rgba(0,0,0,0.4)', 
   },
   container: {
     width: '85%',
     padding: 20,
-    backgroundColor: 'rgba(255,255,255,0.1)', // Efeito de vidro suave
+    backgroundColor: 'rgba(255,255,255,0.1)', 
     borderRadius: 15,
   },
   title: {

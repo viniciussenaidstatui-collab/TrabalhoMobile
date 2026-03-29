@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingTop: 20, // Espaço para a barra de status
+    paddingTop: 20,
   },
   menuIcon: {
     color: 'white',
@@ -165,8 +165,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: 'center',
     width: '48%',
-    elevation: 3, // Sombra no Android
-    shadowColor: '#000', // Sombra no iOS
+    elevation: 3, 
+    shadowColor: '#000', 
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,

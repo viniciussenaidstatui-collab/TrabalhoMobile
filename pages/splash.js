@@ -4,9 +4,8 @@ import { ImageBackground, Image, StyleSheet } from "react-native";
 export default function Splash({ navigation }) {
 
   useEffect(() => {
-    // Espera 3 segundos e vai para o Login
     const timer = setTimeout(() => {
-      navigation.replace('Login');
+      navigation.replace('Cadastro');
     }, 3000);
 
     return () => clearTimeout(timer);
@@ -31,10 +30,10 @@ const styles = StyleSheet.create({
     flex: 1, 
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: '#000' // Fundo preto caso a imagem demore a carregar
+    backgroundColor: '#000' 
   },
   logo: {
-    width: '80%', // Usar porcentagem ajuda a não quebrar em telas menores
+    width: '80%', 
     height: 200
   }
 });
