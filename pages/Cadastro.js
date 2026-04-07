@@ -1,44 +1,72 @@
 import React, { useState } from 'react';
-import { 
-  StyleSheet, 
-  View, 
-  Text, 
-  TextInput, 
-  TouchableOpacity, 
-  ImageBackground, 
-  Alert 
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ImageBackground,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
+import axios from 'axios';
 
-export default function Cadastro({ navigation }) { 
+export default function Cadastrar({ navigation }) {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [telefone, setTelefone] = useState('');
+  const [nascimento, setNascimento] = useState('');
+  const [gen, setGen] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleCadastro = () => {
-    if (!nome || !email || !senha) {
-      Alert.alert("Erro", "Preencha todos os campos!");
+  function formatApi(data) {
+    const parts = data.split('/');
+    if (parts.length !== 3) return null;
+    const [dia, mes, ano] = parts;
+    return `${ano}-${mes}-${dia}`;
+  }
+
+  async function handleCadastro() {
+    if (nome === '' || email === '' || senha === '' || telefone === '' || nascimento === '' || gen === '') {
+      Alert.alert('ERRO', 'Preencher Todos os Campos');
       return;
     }
-    fetch('http://127.0.0.1:8080/api/usuario', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nome, email, senha })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        Alert.alert("Sucesso", "Conta criada com sucesso!");
-        navigation.navigate('Login');
-      }
-    })
-    .catch(error => {
-      console.log('Erro de rede esperado:', error);
-      Alert.alert("Aviso", "Cadastro simulado com sucesso");
-      navigation.navigate('Login');
-    });
-  };
+
+    const dataNascimento = formatApi(nascimento);
+    if (!dataNascimento) {
+      Alert.alert('ERRO', 'Data inválida. Use DD/MM/AAAA');
+      return;
+    }
+
+    const values = {
+      nome,
+      email,
+      senha,
+      telefone,
+      nascimento: dataNascimento,
+      genero: gen,
+    };
+
+    setLoading(true);
+    try {
+      const response = await axios.post('http://10.0.2.2:8000/api/cadastra_usuario', values);
+      console.log(response.data)
+      Alert.alert('Sucesso', 'Usuário cadastrado com Sucesso', [
+        { text: 'OK', onPress: () => navigation.navigate('Login') },
+      ]);
+
+    } catch (error) {
+      console.log('ERRO', error);
+      const mensagem = error.response?.data?.message || 'Erro de conexão com o servidor';
+      Alert.alert('Erro', mensagem);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
-    <ImageBackground 
+    <ImageBackground
       source={{ uri: 'https://images.unsplash.com/photo-1557683311-eac922347aa1' }}
       style={styles.background}
     >
@@ -46,38 +74,63 @@ export default function Cadastro({ navigation }) {
         <View style={styles.container}>
           <Text style={styles.title}>Criar Conta</Text>
 
-          <TextInput 
+          <TextInput
             style={styles.input}
-            placeholder="Nome Completo" 
+            placeholder="Nome Completo"
             placeholderTextColor="#ccc"
-            value={nome} 
-            onChangeText={setNome} 
+            value={nome}
+            onChangeText={setNome}
           />
-          
-          <TextInput 
+          <TextInput
             style={styles.input}
-            placeholder="E-mail" 
+            placeholder="E-mail"
             placeholderTextColor="#ccc"
-            keyboardType="email-address" 
+            keyboardType="email-address"
             autoCapitalize="none"
-            value={email} 
-            onChangeText={setEmail} 
+            value={email}
+            onChangeText={setEmail}
           />
-          
-          <TextInput 
+          <TextInput
             style={styles.input}
-            placeholder="Senha" 
+            placeholder="Senha"
             placeholderTextColor="#ccc"
-            secureTextEntry 
-            value={senha} 
-            onChangeText={setSenha} 
+            secureTextEntry
+            value={senha}
+            onChangeText={setSenha}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Telefone"
+            placeholderTextColor="#ccc"
+            keyboardType="phone-pad"
+            value={telefone}
+            onChangeText={setTelefone}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Data de Nascimento (DD/MM/AAAA)"
+            placeholderTextColor="#ccc"
+            keyboardType="numeric"
+            value={nascimento}
+            onChangeText={setNascimento}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Gênero"
+            placeholderTextColor="#ccc"
+            value={gen}
+            onChangeText={setGen}
           />
 
-          <TouchableOpacity 
-            style={styles.btnSuccess}
+          <TouchableOpacity
+            style={[styles.btnSuccess, loading && { backgroundColor: '#6c757d' }]}
             onPress={handleCadastro}
+            disabled={loading}
           >
-            <Text style={styles.btnText}>CADASTRAR</Text>
+            {loading
+              ? <ActivityIndicator color="#fff" />
+              : <Text style={styles.btnText}>CADASTRAR</Text>
+            }
           </TouchableOpacity>
         </View>
       </View>
@@ -86,14 +139,12 @@ export default function Cadastro({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-  },
+  background: { flex: 1 },
   overlay: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.4)'
+    backgroundColor: 'rgba(0,0,0,0.4)',
   },
   container: {
     width: '85%',
@@ -106,7 +157,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
     marginBottom: 25,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   input: {
     backgroundColor: 'rgba(255,255,255,0.2)',
@@ -118,32 +169,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.3)',
   },
-  backButton: {
-    position: 'absolute',
-    top: 50,
-    left: 20,
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    width: 45,
-    height: 45,
-    borderRadius: 22.5,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  backText: {
-    color: 'white',
-    fontSize: 24,
-    fontWeight: 'bold'
-  },
   btnSuccess: {
     backgroundColor: '#28a745',
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
-    marginTop: 10
+    marginTop: 10,
   },
   btnText: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 16
-  }
+    fontSize: 16,
+  },
 });
