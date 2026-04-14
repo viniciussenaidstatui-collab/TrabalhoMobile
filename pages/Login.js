@@ -1,80 +1,109 @@
 import React, { useState } from 'react';
-import { 
-  StyleSheet, 
-  View, 
-  Text, 
-  TextInput, 
-  TouchableOpacity, 
-  ImageBackground, 
-  Alert 
+import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ImageBackground,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
 
 export default function Login({ navigation }) {
-  const [user, setUser] = useState('');
-  const [pass, setPass] = useState('');
-  const logar = () => {
-    if (user === '' || pass === '') {
-      Alert.alert("Erro", "Preencha todos os campos!");
-    } else {
-      Alert.alert("Sucesso", `Bem-vindo, ${user}!`);
-      navigation.navigate('Home');
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  async function Logar() {
+    if (email === '' || senha === '') {
+      Alert.alert('ERRO', 'Favor Preencher todos os Campos!');
+      return;
     }
-  };
+
+    setLoading(true);
+    try {
+      const response = await axios.post('http://10.0.2.2:8000/api/login_usuario', {
+        email: email,
+        senha: senha,
+      });
+
+      console.log(response.data);
+
+      if (response.data.token) {
+        const tokenSalvo = await AsyncStorage.setItem('token', response.data.token);
+        console.log(tokenSalvo);
+        Alert.alert('Sucesso', 'Login Realizado com Sucesso!');
+        navigation.replace('cep');
+      } else {
+        Alert.alert('ERRO', response.data.msg);
+      }
+
+    } catch (error) {
+      console.log('ERRO', error.response.data.errors);
+      Alert.alert('Erro', 'Erro de conexão com o servidor');
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
-    <ImageBackground 
-      source={{ uri: 'https://images.unsplash.com/photo-1557683316-973673baf926' }} 
+    <ImageBackground
+      source={{ uri: 'https://images.unsplash.com/photo-1557683316-973673baf926' }}
       style={styles.background}
     >
       <View style={styles.overlay}>
-        
-        {/* Botão de voltar */}
         <View style={styles.container}>
           <Text style={styles.title}>Login</Text>
-          
-          <TextInput 
+
+          <TextInput
             style={styles.input}
-            placeholder="E-mail" 
+            placeholder="E-mail"
             placeholderTextColor="#ccc"
-            value={user} 
-            onChangeText={setUser} 
+            value={email}
+            onChangeText={setEmail}
             keyboardType="email-address"
             autoCapitalize="none"
           />
-
-          <TextInput 
+          <TextInput
             style={styles.input}
-            placeholder="Senha" 
+            placeholder="Senha"
             placeholderTextColor="#ccc"
-            value={pass} 
-            onChangeText={setPass} 
+            value={senha}
+            onChangeText={setSenha}
             secureTextEntry
           />
 
-          <TouchableOpacity style={styles.btnPrimary} onPress={logar}>
-            <Text style={styles.btnText}>ENTRAR</Text>
+          <TouchableOpacity
+            style={[styles.btnPrimary, loading && { backgroundColor: '#6c757d' }]}
+            onPress={Logar}
+            disabled={loading}
+          >
+            {loading
+              ? <ActivityIndicator color="#fff" />
+              : <Text style={styles.btnText}>ENTRAR</Text>
+            }
           </TouchableOpacity>
         </View>
-
       </View>
     </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-  },
+  background: { flex: 1 },
   overlay: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.4)', 
+    backgroundColor: 'rgba(0,0,0,0.4)',
   },
   container: {
     width: '85%',
     padding: 20,
-    backgroundColor: 'rgba(255,255,255,0.1)', 
+    backgroundColor: 'rgba(255,255,255,0.1)',
     borderRadius: 15,
   },
   title: {
@@ -106,19 +135,4 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
-  menuButton: {
-    position: 'absolute',
-    top: 50,
-    left: 20,
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    width: 45,
-    height: 45,
-    borderRadius: 22.5,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  menuText: {
-    color: 'white',
-    fontSize: 24,
-  }
 });
