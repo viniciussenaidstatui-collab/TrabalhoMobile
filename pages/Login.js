@@ -34,6 +34,7 @@ export default function Login({ navigation }) {
 
       if (response.data.token) {
         const tokenSalvo = await AsyncStorage.setItem('token', response.data.token);
+        console.log('✅ Token salvo:', response.data.token);
         console.log(tokenSalvo);
         Alert.alert('Sucesso', 'Login Realizado com Sucesso!');
         navigation.replace('cep');

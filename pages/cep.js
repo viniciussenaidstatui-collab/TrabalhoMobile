@@ -82,7 +82,7 @@ export default function BuscaCep({ navigation }) {
 
       <View style={styles.overlay}>
         <View style={styles.container}>
-          <Text style={styles.title}>Buscar CEP</Text>
+          <Text style={styles.title}>Buscar CEP da LOJA</Text>
           <TextInput
             style={styles.input}
             placeholder="Digite o CEP (Ex: 01001000)"

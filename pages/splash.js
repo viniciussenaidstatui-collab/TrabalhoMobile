@@ -24,7 +24,7 @@ export default function Splash({ navigation }) {
 
   return (
     <ImageBackground
-      source={{ uri: 'https://wallpapers.com/images/featured/samsung-galaxy-ltwgp25zr4bnvfam.jpg' }}
+      source={{ uri: 'https://planetary.s3.amazonaws.com/assets/images/wallpaper/bg_planetary-society_wise-pleaides-schmidt_phone1215x2160.jpg' }}
       style={styles.container}
     >
       <Image
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000'
   },
   logo: {
-    width: '80%',
-    height: 200
+    width: '100%',
+    height: 400
   }
 });
