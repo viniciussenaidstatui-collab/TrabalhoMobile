@@ -6,11 +6,48 @@ import {
   Text,
   TouchableOpacity,
   StatusBar,
-  SafeAreaView
+  SafeAreaView,
+  Alert,
+  ActivityIndicator
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Home({ navigation }) {
   const [menuAberto, setMenuAberto] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  // Função para deslogar
+  async function deslogar() {
+    setLoading(true);
+    try {
+      // Remove o token do AsyncStorage
+      await AsyncStorage.removeItem('token');
+      console.log('✅ Token removido com sucesso');
+      
+      Alert.alert(
+        'Logout',
+        'Você saiu do sistema com sucesso!',
+        [
+          {
+            text: 'OK',
+            onPress: () => {
+              // Navega para a tela de login e remove o histórico
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'Login' }],
+              });
+            }
+          }
+        ]
+      );
+    } catch (error) {
+      console.error('Erro ao remover token:', error);
+      Alert.alert('Erro', 'Não foi possível fazer logout');
+    } finally {
+      setLoading(false);
+      setMenuAberto(false);
+    }
+  }
 
   return (
     <View style={styles.background}>
@@ -60,6 +97,19 @@ export default function Home({ navigation }) {
               }}
             >
               <Text style={styles.menuText}>Cep</Text>
+            </TouchableOpacity>
+
+            {/* Botão de Logout */}
+            <TouchableOpacity
+              style={[styles.menuBtn, styles.logoutBtn]}
+              onPress={deslogar}
+              disabled={loading}
+            >
+              {loading ? (
+                <ActivityIndicator color="#ff4444" size="small" />
+              ) : (
+                <Text style={[styles.menuText, styles.logoutText]}>Sair</Text>
+              )}
             </TouchableOpacity>
           </View>
         )}
@@ -124,14 +174,14 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    backgroundColor: '#1a1a2e', // Fundo escuro suave
+    backgroundColor: '#1a1a2e',
   },
   safeArea: {
     flex: 1,
   },
   navbar: {
     height: 80,
-    backgroundColor: 'rgba(255,255,255,0.05)', // Translúcido
+    backgroundColor: 'rgba(255,255,255,0.05)',
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
@@ -174,6 +224,15 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
   },
+  logoutBtn: {
+    borderTopWidth: 0.5,
+    borderTopColor: 'rgba(255,255,255,0.2)',
+    marginTop: 5,
+  },
+  logoutText: {
+    color: '#ff4444',
+    fontWeight: 'bold',
+  },
   scrollContent: {
     padding: 20,
   },
@@ -189,7 +248,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   cardContainer: {
-    backgroundColor: 'rgba(255,255,255,0.08)', // Translúcido
+    backgroundColor: 'rgba(255,255,255,0.08)',
     padding: 20,
     borderRadius: 12,
     alignItems: 'center',
@@ -200,7 +259,7 @@ const styles = StyleSheet.create({
   cardValue: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#4ecdc4', // Verde água suave
+    color: '#4ecdc4',
   },
   cardLabel: {
     fontSize: 12,
@@ -212,7 +271,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   actionBtn: {
-    backgroundColor: 'rgba(255,255,255,0.08)', // Translúcido
+    backgroundColor: 'rgba(255,255,255,0.08)',
     padding: 12,
     borderRadius: 10,
     flex: 1,
@@ -227,7 +286,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
   },
   highlightCard: {
-    backgroundColor: 'rgba(255,255,255,0.1)', // Translúcido
+    backgroundColor: 'rgba(255,255,255,0.1)',
     padding: 20,
     borderRadius: 12,
     alignItems: 'center',
@@ -241,12 +300,12 @@ const styles = StyleSheet.create({
   },
   highlightPrice: {
     fontSize: 22,
-    color: '#4ecdc4', // Verde água suave
+    color: '#4ecdc4',
     marginVertical: 10,
     fontWeight: 'bold',
   },
   buyBtn: {
-    backgroundColor: 'rgba(255,255,255,0.15)', // Translúcido
+    backgroundColor: 'rgba(255,255,255,0.15)',
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 25,

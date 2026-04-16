@@ -43,11 +43,15 @@ export default function Login({ navigation }) {
       }
 
     } catch (error) {
-      console.log('ERRO', error.response.data.errors);
+      console.log('ERRO', error.response?.data?.errors || error.message);
       Alert.alert('Erro', 'Erro de conexão com o servidor');
     } finally {
       setLoading(false);
     }
+  }
+
+  function irParaCadastro() {
+    navigation.navigate('Cadastro');
   }
 
   return (
@@ -86,6 +90,16 @@ export default function Login({ navigation }) {
               ? <ActivityIndicator color="#fff" />
               : <Text style={styles.btnText}>ENTRAR</Text>
             }
+          </TouchableOpacity>
+
+          {/* Botão de Cadastro */}
+          <TouchableOpacity
+            style={styles.btnCadastro}
+            onPress={irParaCadastro}
+          >
+            <Text style={styles.btnCadastroText}>
+              Não tem uma conta? <Text style={styles.linkText}>Cadastre-se</Text>
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -135,5 +149,19 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  btnCadastro: {
+    marginTop: 20,
+    alignItems: 'center',
+    padding: 10,
+  },
+  btnCadastroText: {
+    color: 'rgba(255,255,255,0.8)',
+    fontSize: 14,
+  },
+  linkText: {
+    color: '#007bff',
+    fontWeight: 'bold',
+    textDecorationLine: 'underline',
   },
 });
