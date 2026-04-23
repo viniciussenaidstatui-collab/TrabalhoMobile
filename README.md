@@ -84,4 +84,5 @@ TRABALHOMOBILE/                    →  TRABALHOMOBILE/
 
 ## 👨‍💻 Autor
 
-Seu nome aqui
+Vinicius Odnei Silveira
+Kayke Ryan da Silva Côrrea
