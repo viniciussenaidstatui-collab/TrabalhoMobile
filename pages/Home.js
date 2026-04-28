@@ -99,6 +99,16 @@ export default function Home({ navigation }) {
               <Text style={styles.menuText}>Cep</Text>
             </TouchableOpacity>
 
+            <TouchableOpacity
+              style={styles.menuBtn}
+              onPress={() => {
+                setMenuAberto(false);
+                navigation.navigate('Lista');
+              }}
+            >
+              <Text style={styles.menuText}>Lista</Text>
+            </TouchableOpacity>
+
             {/* Botão de Logout */}
             <TouchableOpacity
               style={[styles.menuBtn, styles.logoutBtn]}

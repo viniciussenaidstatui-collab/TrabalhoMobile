@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import Cadastro from './pages/Cadastro';
 import Login from './pages/Login';
 import cep from './pages/cep';
+import Lista from './pages/Lista';
 
 const Stack = createNativeStackNavigator();
 
@@ -40,6 +41,10 @@ export default function App() {
          <Stack.Screen
           name="cep"
           component={cep}
+        />
+        <Stack.Screen
+          name="Lista"
+          component={Lista}
         />
 
       </Stack.Navigator>
