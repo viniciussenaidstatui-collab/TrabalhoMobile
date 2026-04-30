@@ -15,11 +15,8 @@ export default function Lista() {
       try {
         setLoading(true);
 
-        // ✅ POST ao invés de GET
-        // ✅ Troque pelo IP da sua máquina (ex: 192.168.x.x)
         const response = await axios.post("http://10.0.2.2:8000/api/todos_samsung");
 
-        // ✅ Chave correta é "samsung"
         const timesData = response.data.samsung || [];
         setDados(timesData);
 
