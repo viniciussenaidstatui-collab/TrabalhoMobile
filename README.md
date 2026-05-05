@@ -80,42 +80,6 @@ O projeto Laravel fornece uma API REST consumida pelo aplicativo mobile.
 📬 Documentação completa da API:
 👉 https://documenter.getpostman.com/view/51856137/2sBXirkUeT
 
-## 📂 Estrutura do projeto
-
-PROJETO-LARAVEL/
-* ├── app/
-* │   ├── Http/
-* │   │   ├── Controllers/
-* │   │   │   ├── AuthController.php
-* │   │   │   └── UsuarioController.php
-* │   │   └── Middleware/
-* │   ├── Models/
-* │   │   └── User.php
-* ├── bootstrap/
-* ├── config/
-* ├── database/
-* │   ├── migrations/
-* │   └── seeders/
-* ├── public/
-* ├── resources/
-* ├── routes/
-* │   ├── api.php
-* │   └── web.php
-* ├── storage/
-* ├── tests/
-* ├── vendor/
-* ├── .editorconfig
-* ├── .env
-* ├── .gitattributes
-* ├── .gitignore
-* ├── artisan
-* ├── composer.json
-* ├── composer.lock
-* ├── package-lock.json
-* ├── phpunit.xml
-* ├── publiccssdashboard.css
-* └── README.md
-
 ## 📄 Documentação completa
 
 * 📘 Documentação: https://docs.google.com/document/d/11JlwIfvrFNDG6BNHn7x-YGeThVzLoPsnS0hZveca7Jo/edit?usp=sharing
