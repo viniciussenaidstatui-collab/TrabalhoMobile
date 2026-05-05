@@ -16,11 +16,11 @@ export default function Home({ navigation }) {
   const [menuAberto, setMenuAberto] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Função para deslogar
+  
   async function deslogar() {
     setLoading(true);
     try {
-      // Remove o token do AsyncStorage
+      
       await AsyncStorage.removeItem('token');
       console.log('✅ Token removido com sucesso');
       
@@ -31,7 +31,7 @@ export default function Home({ navigation }) {
           {
             text: 'OK',
             onPress: () => {
-              // Navega para a tela de login e remove o histórico
+              
               navigation.reset({
                 index: 0,
                 routes: [{ name: 'Login' }],
@@ -54,7 +54,7 @@ export default function Home({ navigation }) {
       <StatusBar barStyle="light-content" backgroundColor="#1a1a2e" />
       <SafeAreaView style={styles.safeArea}>
         
-        {/* NAVBAR */}
+       
         <View style={styles.navbar}>
           <TouchableOpacity 
             onPress={() => setMenuAberto(!menuAberto)}
@@ -66,7 +66,7 @@ export default function Home({ navigation }) {
           <View style={styles.navRight} />
         </View>
 
-        {/* MENU RETRÁTIL */}
+        
         {menuAberto && (
           <View style={styles.menuContainer}>
             <TouchableOpacity
@@ -109,7 +109,17 @@ export default function Home({ navigation }) {
               <Text style={styles.menuText}>Lista</Text>
             </TouchableOpacity>
 
-            {/* Botão de Logout */}
+            <TouchableOpacity
+              style={styles.menuBtn}
+              onPress={() => {
+                setMenuAberto(false);
+                navigation.navigate('Cdit');
+              }}
+            >
+              <Text style={styles.menuText}>cadastro de item</Text>
+            </TouchableOpacity>
+
+            
             <TouchableOpacity
               style={[styles.menuBtn, styles.logoutBtn]}
               onPress={deslogar}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios"; // ✅ ADICIONADO
+import axios from "axios"; 
 import { Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, FlatList, Pressable, Modal, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
@@ -39,7 +39,7 @@ export default function Lista() {
       style={styles.timeCard}
     >
       <Text style={styles.nomeTime}>{item.aparelho}</Text> 
-      <Text style={styles.infoText}>📅 {item.modelo} | 📍 {item.cor}</Text>
+      <Text style={styles.infoText}> {item.modelo} |  {item.cor}</Text>
       <Text style={styles.titulosText}>🏆 {item.ano} título(s)</Text>
     </Pressable>
   );
@@ -67,7 +67,7 @@ export default function Lista() {
       <FlatList
         data={dados}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()} // ✅ CORRIGIDO
+        keyExtractor={(item) => item.id.toString()} 
         contentContainerStyle={{ padding: 20 }}
         showsVerticalScrollIndicator={false}
       />
