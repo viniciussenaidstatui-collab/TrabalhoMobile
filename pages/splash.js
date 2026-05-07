@@ -10,7 +10,7 @@ export default function Splash({ navigation }) {
 
       const time = setTimeout(() => {
         if (token) {
-          navigation.replace("cep");
+          navigation.replace("Home");
         } else {
           navigation.replace("Login");
         }

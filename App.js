@@ -10,6 +10,8 @@ import cep from './pages/cep';
 import Lista from './pages/Lista';
 import Cdit from './pages/Cdit';
 import Edita from './pages/Edita';
+import Deletar from './pages/Deletar';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -55,6 +57,11 @@ export default function App() {
         <Stack.Screen
           name="Edita"
           component={Edita}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Deletar"
+          component={Deletar}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

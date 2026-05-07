@@ -120,10 +120,16 @@ export default function Lista() {
 
               <TouchableOpacity
                 style={styles.excluibnt}
-                onPress={() => setModal(false)}
+                onPress={() => {
+                  setModal(false); 
+                  navigation.navigate('Deletar', { 
+                    produto: recebeDado 
+                  });
+                }}
               >
-                <Text style={styles.buyText}>EXCLUIR</Text>
+                <Text style={styles.altera}>EXCLUIR</Text>
               </TouchableOpacity>
+
             </View>
           </ScrollView>
         </View>

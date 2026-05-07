@@ -37,7 +37,7 @@ export default function Login({ navigation }) {
         console.log('✅ Token salvo:', response.data.token);
         console.log(tokenSalvo);
         Alert.alert('Sucesso', 'Login Realizado com Sucesso!');
-        navigation.replace('cep');
+        navigation.replace('Home');
       } else {
         Alert.alert('ERRO', response.data.msg);
       }
