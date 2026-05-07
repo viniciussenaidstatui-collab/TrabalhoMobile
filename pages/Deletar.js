@@ -93,7 +93,7 @@ export default function Deletar({ navigation }) {
         { 
           text: 'Excluir', 
           style: 'destructive',
-          onPress: confirmarExclusao
+          onPress: () => confirmarExclusao() // CORRIGIDO: arrow function
         }
       ]
     );
@@ -107,13 +107,13 @@ export default function Deletar({ navigation }) {
     setLoading(true);
     
     try {
-      // CORRIGIDO: Usando a rota correta '/d_samsung' com método DELETE
+      // CORRIGIDO: Usando PARAMS em vez de DATA
       const response = await axios.delete(
         'http://10.0.2.2:8000/api/d_samsung',
         {
-          data: {
-            id_loja: produtoData.id,
+          params: {
             token: token,
+            id_loja: produtoData.id,
           },
           headers: {
             'Content-Type': 'application/json',
@@ -160,6 +160,12 @@ export default function Deletar({ navigation }) {
         if (error.response.status === 401) {
           mensagemErro = 'Token inválido ou expirado. Faça login novamente.';
           await AsyncStorage.removeItem('token');
+          Alert.alert(
+            'Sessão expirada',
+            mensagemErro,
+            [{ text: 'OK', onPress: () => navigation.replace('Login') }]
+          );
+          return;
         } else if (error.response.status === 403) {
           mensagemErro = 'Você não tem permissão para excluir este produto.';
         } else if (error.response.status === 404) {
@@ -177,19 +183,6 @@ export default function Deletar({ navigation }) {
       }
       
       Alert.alert('Erro', mensagemErro);
-      
-      // Se houve erro, não fecha a tela
-      if (error.response?.status !== 404) {
-        // Se for erro de conexão, permite tentar novamente
-        Alert.alert(
-          'Tentar novamente?',
-          'Deseja tentar excluir o produto novamente?',
-          [
-            { text: 'Não', style: 'cancel' },
-            { text: 'Sim', onPress: handleDeletar }
-          ]
-        );
-      }
       
     } finally {
       setLoading(false);
