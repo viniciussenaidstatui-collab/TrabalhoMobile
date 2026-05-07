@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios"; 
+import { useRoute } from "@react-navigation/native";
 import { Alert } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, FlatList, Pressable, Modal, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 
 export default function Lista() {
+  const navigation = useNavigation(); // ✅ Movido para dentro do componente
   const [dados, setDados] = useState([]);
   const [modal, setModal] = useState(false);
   const [recebeDado, setRecebeDado] = useState("");
@@ -14,12 +17,9 @@ export default function Lista() {
     async function Buscar() {
       try {
         setLoading(true);
-
         const response = await axios.post("http://10.0.2.2:8000/api/todos_samsung");
-
         const timesData = response.data.samsung || [];
         setDados(timesData);
-
       } catch (error) {
         console.log("Erro:", error.response?.data || error.message);
         Alert.alert("Erro", "Não foi possível carregar");
@@ -59,7 +59,6 @@ export default function Lista() {
 
   return (
     <View style={styles.mainContainer}>
-
       <View style={styles.navbar}>
         <Text style={styles.navTitle}>Produtos Cadastrados</Text>
       </View>
@@ -80,7 +79,6 @@ export default function Lista() {
 
           <ScrollView contentContainerStyle={{ padding: 20 }}>
             <View style={styles.highlightCard}>
-
               <View style={styles.detailItem}>
                 <Text style={styles.label}>Aparelho:</Text>
                 <Text style={styles.value}>{recebeDado.aparelho}</Text>
@@ -108,11 +106,28 @@ export default function Lista() {
                 <Text style={styles.buyText}>FECHAR</Text>
               </TouchableOpacity>
 
+              <TouchableOpacity
+                style={styles.alterabnt}
+                onPress={() => {
+                  setModal(false); // Fecha o modal antes de navegar
+                  navigation.navigate('Edita', { 
+                    produto: recebeDado 
+                  });
+                }}
+              >
+                <Text style={styles.altera}>ALTERAR</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.excluibnt}
+                onPress={() => setModal(false)}
+              >
+                <Text style={styles.buyText}>EXCLUIR</Text>
+              </TouchableOpacity>
             </View>
           </ScrollView>
         </View>
       </Modal>
-
     </View>
   );
 }
@@ -130,6 +145,9 @@ const styles = StyleSheet.create({
   detailItem: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 15, borderBottomWidth: 1, borderBottomColor: '#eee', alignItems: 'center' },
   label: { color: '#6f42c1', fontSize: 16, fontWeight: '700' },
   value: { color: '#333', fontSize: 16, fontWeight: 'bold', flex: 1, textAlign: 'right' },
+  excluibnt: { backgroundColor: '#ff0000', paddingVertical: 12, paddingHorizontal: 30, borderRadius: 25, alignItems: 'center', marginTop: 20 },
+  alterabnt: { backgroundColor: '#ddff00', paddingVertical: 12, paddingHorizontal: 30, borderRadius: 25, alignItems: 'center', marginTop: 20 },
   buyBtn: { backgroundColor: '#007bff', paddingVertical: 12, paddingHorizontal: 30, borderRadius: 25, alignItems: 'center', marginTop: 20 },
   buyText: { color: 'white', fontWeight: 'bold' },
+  altera: { color: 'black', fontWeight: 'bold' } 
 });

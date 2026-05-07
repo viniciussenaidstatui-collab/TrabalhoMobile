@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import cep from './pages/cep';
 import Lista from './pages/Lista';
 import Cdit from './pages/Cdit';
+import Edita from './pages/Edita';
 
 const Stack = createNativeStackNavigator();
 
@@ -49,6 +50,11 @@ export default function App() {
         <Stack.Screen
           name="Cdit"
           component={Cdit}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Edita"
+          component={Edita}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

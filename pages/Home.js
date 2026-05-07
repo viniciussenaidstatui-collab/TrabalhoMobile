@@ -116,7 +116,7 @@ export default function Home({ navigation }) {
                 navigation.navigate('Cdit');
               }}
             >
-              <Text style={styles.menuText}>cadastro de item</Text>
+              <Text style={styles.menuText}>Cadastrar</Text>
             </TouchableOpacity>
 
             
