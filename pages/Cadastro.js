@@ -72,6 +72,10 @@ export default function Cadastrar({ navigation }) {
     >
       <View style={styles.overlay}>
         <View style={styles.container}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
+            <Text style={styles.backText}>← Voltar</Text>
+          </TouchableOpacity>
+
           <Text style={styles.title}>Criar Conta</Text>
 
           <TextInput
@@ -181,4 +185,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
+  backBtn: { marginBottom: 10 },
+  backText: { color: '#ccc', fontSize: 14 },
 });

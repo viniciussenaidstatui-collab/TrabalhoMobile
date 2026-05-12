@@ -45,36 +45,20 @@ export default function BuscaCep({ navigation }) {
         <Text style={styles.navTitle}>SAMSUNG STORE</Text>
       </View>
 
+      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
+        <Text style={styles.backText}>← Voltar</Text>
+      </TouchableOpacity>
+
       {/* MENU RETRÁTIL */}
       {menuAberto && (
         <View style={styles.menuContainer}>
-          <TouchableOpacity
-            style={styles.menuBtn}
-            onPress={() => {
-              setMenuAberto(false);
-              navigation.navigate('Login');
-            }}
-          >
+          <TouchableOpacity style={styles.menuBtn} onPress={() => { setMenuAberto(false); navigation.navigate('Login'); }}>
             <Text style={styles.menuText}>Login</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.menuBtn}
-            onPress={() => {
-              setMenuAberto(false);
-              navigation.navigate('Cadastro');
-            }}
-          >
+          <TouchableOpacity style={styles.menuBtn} onPress={() => { setMenuAberto(false); navigation.navigate('Cadastro'); }}>
             <Text style={styles.menuText}>Cadastro</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.menuBtn}
-            onPress={() => {
-              setMenuAberto(false);
-              navigation.navigate('Home');
-            }}
-          >
+          <TouchableOpacity style={styles.menuBtn} onPress={() => { setMenuAberto(false); navigation.navigate('Home'); }}>
             <Text style={styles.menuText}>Home</Text>
           </TouchableOpacity>
         </View>
@@ -82,7 +66,8 @@ export default function BuscaCep({ navigation }) {
 
       <View style={styles.overlay}>
         <View style={styles.container}>
-          <Text style={styles.title}>Buscar CEP da LOJA</Text>
+          <Text style={styles.title}>Buscar CEP da Loja</Text>
+
           <TextInput
             style={styles.input}
             placeholder="Digite o CEP (Ex: 01001000)"
@@ -92,6 +77,7 @@ export default function BuscaCep({ navigation }) {
             value={cep}
             onChangeText={setCep}
           />
+
           <TouchableOpacity style={styles.btnSuccess} onPress={handleBuscarCep}>
             <Text style={styles.btnText}>PROCURAR</Text>
           </TouchableOpacity>
@@ -120,88 +106,70 @@ export default function BuscaCep({ navigation }) {
 
 const styles = StyleSheet.create({
   background: { flex: 1 },
-
-  // NAVBAR
   navbar: {
     height: 80,
-    backgroundColor: '#2c2c2c',
+    backgroundColor: 'rgba(0,0,0,0.5)',
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingTop: 20,
   },
-  menuIcon: {
-    color: 'white',
-    fontSize: 28,
-    marginRight: 15,
-  },
-  navTitle: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  menuContainer: {
-    backgroundColor: '#3a3a3a',
-  },
+  menuIcon: { color: 'white', fontSize: 28, marginRight: 15 },
+  navTitle: { color: 'white', fontSize: 18, fontWeight: 'bold' },
+  menuContainer: { backgroundColor: 'rgba(0,0,0,0.7)' },
   menuBtn: {
     padding: 15,
     borderBottomWidth: 0.5,
-    borderBottomColor: '#555',
+    borderBottomColor: 'rgba(255,255,255,0.2)',
   },
-  menuText: {
-    color: 'white',
-    fontSize: 16,
-  },
-
-  // CONTEÚDO
+  menuText: { color: 'white', fontSize: 16 },
   overlay: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.6)',
+    backgroundColor: 'rgba(0,0,0,0.4)',
   },
   container: {
-    width: '90%',
+    width: '85%',
     padding: 20,
-    backgroundColor: '#fff',
-    borderRadius: 10,
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    borderRadius: 15,
   },
   title: {
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 20,
+    color: 'white',
+    marginBottom: 25,
     textAlign: 'center',
   },
   input: {
-    backgroundColor: '#f2f2f2',
-    borderRadius: 8,
-    paddingHorizontal: 15,
-    marginBottom: 15,
-    fontSize: 16,
+    backgroundColor: 'rgba(255,255,255,0.2)',
     height: 50,
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    color: 'white',
+    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.3)',
   },
   btnSuccess: {
     backgroundColor: '#28a745',
     padding: 15,
-    borderRadius: 8,
+    borderRadius: 10,
     alignItems: 'center',
+    marginTop: 10,
   },
-  btnText: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
+  btnText: { color: 'white', fontWeight: 'bold', fontSize: 16 },
+  backBtn: { marginVertical: 10, marginHorizontal: 20 },
+  backText: { color: '#ccc', fontSize: 14 },
   resultadoContainer: {
     marginTop: 20,
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    borderRadius: 10,
+    padding: 15,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.3)',
   },
-  textoResultado: {
-    color: '#555',
-    fontSize: 16,
-    marginBottom: 5,
-  },
-  label: {
-    fontWeight: 'bold',
-    color: '#333',
-  },
+  textoResultado: { color: 'white', fontSize: 15, marginBottom: 6 },
+  label: { fontWeight: 'bold', color: '#ccc' },
 });
