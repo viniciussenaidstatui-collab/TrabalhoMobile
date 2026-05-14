@@ -86,6 +86,7 @@ O projeto Laravel fornece uma API REST consumida pelo aplicativo mobile.
 * 📬 API (Postman): https://documenter.getpostman.com/view/51856137/2sBXirkUeT
 * 🎨 Protótipo (Figma):https://www.figma.com/design/Ab2XbvV2BEeHaIqYOVGvYO/prot%C3%B3tipo?node-id=0-1&t=IYF0FUG1APXEkxVR-1
 * 📊 Jira: https://viniciussenaidstatui.atlassian.net/jira/software/projects/PS/boards/3?atlOrigin=eyJpIjoiMjgxYzE0MTE3ZDk0NGRiMTgwZjFiYjNmZjE5ZTI3NmEiLCJwIjoiaiJ9
+* Trello: Caso de Uso: https://trello.com/invite/b/6a05ada0827eabc965da8f47/ATTI71ad5c90d43088b1cc4d66bd12956d342568797A/caso-de-teste-samsunga
 
 
 ## 📋 Códigos de Status HTTP
